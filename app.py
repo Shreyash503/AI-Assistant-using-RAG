@@ -430,9 +430,11 @@ def index():
     return send_from_directory(".", "index.html")
 
 
+# ✅ Fixed
 if __name__ == "__main__":
     os.makedirs("uploads", exist_ok=True)
     with app.app_context():
         db.create_all()
-    print("\n🚀 DocuMind AI is running at: http://localhost:5000\n")
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    print(f"\n🚀 DocuMind AI is running at: http://localhost:{port}\n")
+    app.run(debug=False, host="0.0.0.0", port=port)
