@@ -8,7 +8,7 @@ import os
 import uuid
 import logging
 from datetime import datetime
-from flask import Flask, request, jsonify, render_template, session
+from flask import Flask, request, jsonify, send_from_directory, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -193,20 +193,19 @@ def generate_answer(question, context_chunks, chat_history):
     if context_chunks:
         context = "\n\n---\n\n".join(context_chunks)
         system_prompt = (
-            "You are a helpful AI assistant. Answer questions based on the provided document context.\n"
-            "If the answer is found in the context, use it to give a clear and accurate response.\n"
-            "If the context does not have the answer, say so honestly.\n"
+            "You are a helpful AI assistant. Answer ONLY based on the provided document context.\n"
+            "If the answer is found in the context, give a clear and accurate response.\n"
+            "If the answer is NOT in the context, say: 'This information is not available in the uploaded document.'\n"
+            "Do NOT use any outside knowledge. Only use what is in the document.\n"
             "Format your response in markdown (bullet points, code blocks, headers as needed).\n"
             "Be concise, clear, and helpful."
         )
         user_content = f"Document Context:\n{context}\n\nQuestion: {question}"
     else:
         system_prompt = (
-            "You are a helpful AI assistant. No document has been uploaded yet.\n"
-            "Politely remind the user to upload a PDF or TXT file first.\n"
-            "You can still answer general knowledge questions."
+            "You are a helpful AI assistant."
         )
-        user_content = question
+        user_content = "Please tell the user: 'No document uploaded yet. Please upload a PDF or TXT file first, then ask your question.'"
 
     messages = [{"role": "system", "content": system_prompt}]
     for msg in chat_history[-6:]:
@@ -428,7 +427,7 @@ def ask(chat_id):
 # ─── Main Route ───────────────────────────────────────────────────────────────
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return send_from_directory(".", "index.html")
 
 
 if __name__ == "__main__":

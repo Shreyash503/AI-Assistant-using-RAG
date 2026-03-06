@@ -378,37 +378,106 @@
     #welcome {
       flex:1; display:flex; flex-direction:column;
       align-items:center; justify-content:center;
-      gap:16px; padding:40px; text-align:center;
+      gap:0; padding:40px; text-align:center;
+      position:relative; overflow:hidden;
     }
+    .welcome-hero {
+      display:flex; flex-direction:column; align-items:center; gap:18px;
+      animation: welcomeIn .6s cubic-bezier(.16,1,.3,1) both;
+    }
+    @keyframes welcomeIn { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+    .welcome-icon-ring {
+      position:relative; width:90px; height:90px; margin-bottom:4px;
+    }
+    .welcome-icon-ring .ring {
+      position:absolute; inset:0; border-radius:50%;
+      border:1.5px solid transparent;
+      animation: ringRotate 4s linear infinite;
+    }
+    .welcome-icon-ring .ring:nth-child(1) {
+      border-top-color:var(--cyan); border-right-color:var(--cyan);
+      animation-duration:3s;
+    }
+    .welcome-icon-ring .ring:nth-child(2) {
+      inset:8px; border-bottom-color:var(--violet); border-left-color:var(--violet);
+      animation-duration:5s; animation-direction:reverse;
+    }
+    .welcome-icon-ring .ring:nth-child(3) {
+      inset:18px; border-top-color:var(--amber); opacity:.5;
+      animation-duration:7s;
+    }
+    @keyframes ringRotate { to{transform:rotate(360deg)} }
+    .welcome-icon-inner {
+      position:absolute; inset:20px; border-radius:50%;
+      background:linear-gradient(135deg,var(--cyan),var(--violet));
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 0 30px rgba(0,212,255,.3), 0 0 60px rgba(124,58,237,.15);
+      font-size:20px;
+    }
+
     .welcome-badge {
       display:inline-flex; align-items:center; gap:6px;
       background:var(--accent-dim); border:1px solid var(--accent-b);
-      color:var(--accent); font-size:11px; padding:5px 14px;
-      border-radius:20px; font-weight:500;
-      font-family:'Space Mono',monospace; letter-spacing:.05em;
+      color:var(--accent); font-size:10px; padding:4px 12px;
+      border-radius:20px; font-weight:600;
+      font-family:'Space Mono',monospace; letter-spacing:.08em;
+      text-transform:uppercase;
     }
     .welcome-dot { width:5px; height:5px; border-radius:50%; background:var(--accent); animation:pulse 2s infinite; }
+
     .welcome-title {
-      font-size:32px; font-weight:700; line-height:1.2;
-      background:linear-gradient(135deg,var(--text) 30%,var(--text-muted));
+      font-size:34px; font-weight:800; line-height:1.15; letter-spacing:-.5px;
+      background:linear-gradient(135deg,var(--text) 20%, var(--cyan) 60%, var(--violet));
       -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
     }
-    .welcome-sub { font-size:14.5px; color:var(--text-muted); max-width:360px; line-height:1.7; }
-    .welcome-cards { display:flex; gap:12px; margin-top:8px; flex-wrap:wrap; justify-content:center; }
-    .welcome-card {
+    .welcome-sub { font-size:14px; color:var(--text-muted); max-width:340px; line-height:1.75; margin-top:-4px; }
+
+    .welcome-steps {
+      display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; justify-content:center;
+    }
+    .welcome-step {
+      display:flex; align-items:center; gap:10px;
       background:var(--surface); border:1px solid var(--border);
-      border-radius:16px; padding:20px 18px; width:140px;
-      text-align:center; transition:all .25s; cursor:default;
+      border-radius:14px; padding:12px 16px;
+      transition:all .25s; cursor:default; text-align:left;
+      min-width:155px; max-width:180px;
     }
-    .welcome-card:hover { border-color:var(--accent-b); background:var(--accent-dim); transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,212,255,.07); }
-    .welcome-card-icon {
-      width:40px; height:40px; border-radius:12px;
-      background:var(--surface2); border:1px solid var(--border);
+    .welcome-step:hover { border-color:var(--accent-b); background:var(--accent-dim); transform:translateY(-3px); box-shadow:0 8px 28px rgba(0,212,255,.08); }
+    .step-num {
+      width:28px; height:28px; border-radius:8px; flex-shrink:0;
       display:flex; align-items:center; justify-content:center;
-      margin:0 auto 12px; font-size:18px;
+      font-size:12px; font-weight:700; font-family:'Space Mono',monospace;
     }
-    .welcome-card strong { display:block; font-size:13px; font-weight:600; margin-bottom:4px; }
-    .welcome-card span { font-size:12px; color:var(--text-muted); line-height:1.5; }
+    .step-num.s1 { background:rgba(0,212,255,.15); color:var(--cyan); }
+    .step-num.s2 { background:rgba(124,58,237,.15); color:var(--violet); }
+    .step-num.s3 { background:rgba(245,158,11,.15); color:var(--amber); }
+    .step-num.s4 { background:rgba(16,185,129,.15); color:var(--green); }
+    .step-info strong { display:block; font-size:12.5px; font-weight:600; margin-bottom:2px; }
+    .step-info span { font-size:11px; color:var(--text-muted); line-height:1.4; }
+
+    .welcome-cta {
+      margin-top:20px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:center;
+    }
+    .cta-upload-btn {
+      display:inline-flex; align-items:center; gap:8px;
+      background:linear-gradient(135deg,var(--cyan),var(--violet));
+      color:#fff; border:none; border-radius:12px; padding:11px 22px;
+      font-size:13.5px; font-weight:600; cursor:pointer;
+      box-shadow:0 4px 20px rgba(0,212,255,.25); transition:all .2s;
+      font-family:inherit;
+    }
+    .cta-upload-btn:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(0,212,255,.38); }
+    .cta-type-hint {
+      font-size:12px; color:var(--text-muted);
+      display:flex; align-items:center; gap:5px;
+    }
+    .cta-type-hint kbd {
+      background:var(--surface2); border:1px solid var(--border2);
+      border-radius:5px; padding:2px 6px; font-size:10px;
+      font-family:'Space Mono',monospace; color:var(--text-dim);
+    }
+
 
     /* ── Input Area ── */
     #input-area {
@@ -530,7 +599,7 @@
             <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
           </svg>
         </div>
-        <div class="auth-logo-title">DocuMind</div>
+        <div class="auth-logo-title">PDF-RAG</div>
         <div class="auth-logo-sub">AI-powered document intelligence</div>
       </div>
       <div class="auth-tabs">
@@ -609,7 +678,7 @@
       <div class="topbar-icon">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
       </div>
-      <span id="chat-title-display">Select or start a new chat</span>
+      <span id="chat-title-display">Upload a document to begin</span>
       <div class="doc-badges-wrap" id="doc-badges">
         <div class="model-badge"><div class="model-dot"></div>llama-3.3-70b</div>
       </div>
@@ -617,29 +686,40 @@
 
     <!-- Welcome -->
     <div id="welcome">
-      <div class="welcome-badge"><div class="welcome-dot"></div>RAG + Groq AI · Ready</div>
-      <div class="welcome-title">Chat with your Documents</div>
-      <div class="welcome-sub">Upload a PDF or TXT file and ask anything. Powered by semantic vector search and Groq's lightning-fast LLM.</div>
-      <div class="welcome-cards">
-        <div class="welcome-card">
-          <div class="welcome-card-icon">📄</div>
-          <strong>Upload</strong>
-          <span>PDF or TXT up to 100 MB</span>
+      <div class="welcome-hero">
+        <div class="welcome-icon-ring">
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="welcome-icon-inner">🤖</div>
         </div>
-        <div class="welcome-card">
-          <div class="welcome-card-icon">🔍</div>
-          <strong>Semantic</strong>
-          <span>Vector-based context retrieval</span>
+        <div class="welcome-badge"><div class="welcome-dot"></div>RAG · Groq AI · Ready</div>
+        <div class="welcome-title">Chat with your Documents</div>
+        <div class="welcome-sub">Upload a PDF or TXT and ask anything — powered by semantic vector search &amp; Groq's lightning LLM.</div>
+        <div class="welcome-steps">
+          <div class="welcome-step">
+            <div class="step-num s1">01</div>
+            <div class="step-info"><strong>Upload</strong><span>PDF or TXT up to 100 MB</span></div>
+          </div>
+          <div class="welcome-step">
+            <div class="step-num s2">02</div>
+            <div class="step-info"><strong>Index</strong><span>Semantic vector search</span></div>
+          </div>
+          <div class="welcome-step">
+            <div class="step-num s3">03</div>
+            <div class="step-info"><strong>Ask</strong><span>Any question about it</span></div>
+          </div>
+          <div class="welcome-step">
+            <div class="step-num s4">04</div>
+            <div class="step-info"><strong>Saved</strong><span>All chats stored securely</span></div>
+          </div>
         </div>
-        <div class="welcome-card">
-          <div class="welcome-card-icon">⚡</div>
-          <strong>Instant</strong>
-          <span>Groq-powered AI responses</span>
-        </div>
-        <div class="welcome-card">
-          <div class="welcome-card-icon">💾</div>
-          <strong>Saved</strong>
-          <span>All chats stored securely</span>
+        <div class="welcome-cta">
+          <button class="cta-upload-btn" onclick="document.getElementById('file-input').click()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Upload Document to Start
+          </button>
+          <div class="cta-type-hint">or type <kbd>Enter</kbd> to ask</div>
         </div>
       </div>
     </div>
@@ -776,15 +856,17 @@
   function continueAsGuest() { isGuest=true; currentUser='Guest'; enterApp(); }
   function setAuthError(msg) { document.getElementById('auth-error').textContent = msg; }
 
-  function enterApp() {
+  async function enterApp() {
     document.getElementById('auth-overlay').style.display = 'none';
     document.getElementById('app').style.display = 'flex';
     document.getElementById('user-name-display').textContent = currentUser;
     document.getElementById('user-avatar').textContent = currentUser[0].toUpperCase();
-    if (!isGuest) loadChats();
-    else {
+    if (!isGuest) {
+      await loadChats();
+    } else {
       document.getElementById('chat-list').innerHTML =
         '<div style="padding:18px 10px;font-size:12px;color:var(--text-muted);text-align:center;line-height:1.7">Sign in to save<br>chat history</div>';
+      openGuestChat();
     }
   }
 
